@@ -1,0 +1,131 @@
+body {
+  margin: 40px auto;
+  padding: 0 60px;
+  font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color: #444;
+  margin-left: 0px; /* Adjusted for sidebar */
+}
+
+h1, h2 {
+  line-height: 1.2;
+  text-indent: 40px;
+}
+
+/* The sidebar menu */
+.sidenav {
+  height: 100%; /* Full-height */
+  width: 200px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #e8e8e8; /* Default color for sidebar */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 40px;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 0px 0px 0px 20px;
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #000;
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #cccccc;
+    background: #222222;
+  }
+
+  a:link {
+  	color: #58a6ff;
+  }
+  
+  a:visited {
+    color: #8e96f0;	
+  }
+
+  .sidenav {
+    background-color: #181818; /* Dark background color for sidebar */
+  }
+
+  .sidenav a {
+    color: #818181; /* Light text color for dark mode */
+  }
+
+  .sidenav a:hover {
+    color: #f1f1f1; /* Lighter text color on hover for dark mode */
+  }
+}
+
+/* Style page content */
+.main {
+  margin-left: 200px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+.topbar {
+  margin-left: 0px; 
+  padding: 0px 10px;
+  display: none;
+  text-align: center;
+  width: 100%;
+}
+
+.icon {
+  width: 200px; /* Adjust this value to the desired square size */
+  height: 200px; /* Ensure the height matches the width to make it a square */
+  object-fit: cover; /* Maintain aspect ratio and cover the square area */
+}
+
+/* On smaller screens, hide the sidebar */
+@media screen and (max-width: 768px) {
+  .sidenav {
+    display: none;
+  }
+
+  .topbar {
+  	display: block;
+  }
+
+  .main {
+    margin-left: 0; /* Adjust main content margin when sidebar is hidden */
+    padding: 0px 10px;
+  }
+
+  .icon {
+  	display: none;
+  }
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+/* Additional styles */
+.summary {
+  border-spacing: 10px 20px;
+}
+
+.description {
+  text-indent: 20px;
+}
+
+.game-list {
+  border-spacing: 20px 30px;
+}
+
+

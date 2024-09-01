@@ -28,8 +28,8 @@ async fn serve_markdown(file_path: &str) -> impl Responder {
       </head>
       <body>
     <div class="sidenav">
-      <h3><a href="https://www.penwing.org">Summary</a></h3>
-      <h3><a href="https://www.penwing.org/tools.html">Tools</a></h3>
+      <h3><a href="/">Summary</a></h3>
+      <h3><a href="/tools">Tools</a></h3>
       <a class="description" href="https://www.penwing.org/tools.html#nginx">proxy</a>
       <a class="description" href="https://www.penwing.org/tools.html#cloudflare">domain</a>
       <a class="description" href="https://www.penwing.org/tools.html#portainer">dashboard</a>
@@ -44,10 +44,10 @@ async fn serve_markdown(file_path: &str) -> impl Responder {
       <h3><a href="https://www.penwing.org/games.html">my Games</a></h3>
     </div>
     <p class="topbar">
-    <a href="https://www.penwing.org">Home</a> - 
-    <a href="https://www.penwing.org/tools.html">Tools</a> - 
-    <a href="https://www.penwing.org/art.html">Art</a> -
-    <a href="https://www.penwing.org/games.html">Games</a>
+    <a href="/">Home</a> - 
+    <a href="/tools">Tools</a> - 
+    <a href="/art">Art</a> -
+    <a href="/games">Games</a>
     </p>
     <div class="main">
     #CONTENT#
@@ -85,6 +85,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .route("/", web::get().to(summary))  // Route for root
             .route("/tools", web::get().to(tools)) // Route for tools
+            .service(actix_files::Files::new("/assets", "./assets").show_files_listing())
     })
     .bind("127.0.0.1:8080")?
     .run()

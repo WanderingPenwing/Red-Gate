@@ -1,12 +1,48 @@
-use pulldown_cmark::{Parser, html};
+use pulldown_cmark::{Parser, html, Event, Tag, HeadingLevel};
 use actix_web::{web, App, HttpServer, HttpResponse, Responder};
 use std::fs;
 
+fn slugify(text: &str) -> String {
+    text.to_lowercase()
+        .replace(" ", "-")
+        .replace(|c: char| !c.is_alphanumeric() && c != '-', "")
+}
+
 fn markdown_to_html(markdown_content: &str) -> String {
-    let mut html_output = String::new();
     let parser = Parser::new(markdown_content);
-    html::push_html(&mut html_output, parser);
-    html_output
+
+    let mut html_output = String::new();
+    let mut events = Vec::new();
+    let mut in_header = false;
+    let mut header_text = String::new();
+
+    for event in parser {
+        match &event {
+            Event::Start(Tag::Heading(HeadingLevel::H6, ..)) => {
+                in_header = true;
+                header_text.clear();
+            }
+            Event::End(Tag::Heading(HeadingLevel::H6, ..)) => {
+                in_header = false;
+                let slug = slugify(&header_text);
+                events.push(Event::Html(format!("<p id=\"{}\"><br></p>", slug).into()));
+            }
+            Event::Text(text) => {
+                if in_header {
+                    header_text.push_str(text);
+                } else {
+                    events.push(event.clone());
+                }
+            }
+            _ => {
+                events.push(event.clone());
+            }
+        }
+    }
+
+    let mut html_renderer = String::new();
+    html::push_html(&mut html_renderer, events.into_iter());
+    html_renderer
 }
 
 async fn serve_markdown(file_path: &str) -> impl Responder {

@@ -11,7 +11,6 @@ fn slugify(text: &str) -> String {
 fn markdown_to_html(markdown_content: &str) -> String {
     let parser = Parser::new(markdown_content);
 
-    let mut html_output = String::new();
     let mut events = Vec::new();
     let mut in_header = false;
     let mut header_text = String::new();
@@ -47,19 +46,20 @@ fn markdown_to_html(markdown_content: &str) -> String {
 
 async fn serve_markdown(file_path: &str) -> impl Responder {
     // Read the Markdown file
-    let markdown_content = fs::read_to_string(file_path).unwrap_or_else(|_| String::from("Error reading file"));
+    let markdown_content = fs::read_to_string(file_path).unwrap_or_else(|_| String::from("Error reading markdown file"));
 
     // Convert Markdown to HTML
     let html_content = markdown_to_html(&markdown_content);
 
     // Create the common HTML wrapper
-    let common_html = include_str!("common.html");
+    let common_html = fs::read_to_string("pages/common.html").unwrap_or_else(|_| String::from("Error reading html file"));
 
     // Replace #CONTENT# placeholder with the actual Markdown HTML content
     let page_html = common_html.replace("#CONTENT#", &html_content);
 
     HttpResponse::Ok().content_type("text/html").body(page_html)
 }
+
 
 async fn summary() -> impl Responder {
     serve_markdown("pages/summary.md").await

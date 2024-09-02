@@ -146,7 +146,7 @@ async fn main() -> std::io::Result<()> {
             .service(actix_files::Files::new("/assets", "./assets").show_files_listing())
             .default_service(web::route().to(summary))
     })
-    .bind("127.0.0.1:8080")?
+    .bind("0.0.0.0:8080")?
     .run()
     .await;
     println!("yuya stopped");

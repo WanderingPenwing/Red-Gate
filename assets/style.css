@@ -37,11 +37,22 @@ h1, h2 {
   color: #000;
 }
 
+input {
+  border: 2px #cccccc;
+  border-radius: 4px;
+  font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   body {
     color: #cccccc;
     background: #222222;
+  }
+
+  input {
+    color: #cccccc;
+    background: #181818;
   }
 
   a:link {

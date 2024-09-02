@@ -80,10 +80,10 @@ async fn serve_markdown(file_path: &str, query_success: Option<bool>) -> impl Re
 			
 			if success {
 				summary_html = fs::read_to_string("pages/summary_on.html").unwrap_or_else(|_| String::from("Error reading summary on html file"));
-				success_html = fs::read_to_string("pages/wake_success.html").unwrap_or_else(|_| String::from("Error reading success html file"));
+				success_html = "<p>Successfuly started boiler, please wait a few minutes for the startup process to end.</p>".to_string();
 			} else {
 				summary_html = fs::read_to_string("pages/summary_off.html").unwrap_or_else(|_| String::from("Error reading summary off html file"));
-				success_html = fs::read_to_string("pages/wake_failure.html").unwrap_or_else(|_| String::from("Error reading failure html file"));
+				success_html = "<p>Wrong password, try again.</p>".to_string();
 			}
 			html_content = html_content.replace("~SUMMARY~", &summary_html).replace("~SUCCESS~", &success_html);
 			
@@ -113,6 +113,10 @@ async fn tools() -> impl Responder {
     serve_markdown("pages/tools.md", None).await
 }
 
+async fn games() -> impl Responder {
+    serve_markdown("pages/games.md", None).await
+}
+
 async fn wake(query: web::Query<WakeQuery>) -> impl Responder {
     let password = &query.password;
 
@@ -137,6 +141,7 @@ async fn main() -> std::io::Result<()> {
             .route("/", web::get().to(summary))  // Route for root
             .route("/tools", web::get().to(tools)) // Route for tools
             .route("/wake", web::get().to(wake))
+            .route("/games", web::get().to(games))
             .service(actix_files::Files::new("/assets", "./assets").show_files_listing())
             .default_service(web::route().to(summary))
     })

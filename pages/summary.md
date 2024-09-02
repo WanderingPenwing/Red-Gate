@@ -6,7 +6,9 @@ It loads so fast ! *yes, I know x)* (go check the epilogue)
 
 ###### spacer
 
-*summary*
+~SUMMARY~
+
+~SUCCESS~
 
 ###### spacer
 

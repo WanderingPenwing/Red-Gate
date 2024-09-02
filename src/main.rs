@@ -136,8 +136,8 @@ async fn wake(query: web::Query<WakeQuery>) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-	println!("main started");
-    HttpServer::new(|| {
+	println!("yuya started");
+    let result = HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(summary))  // Route for root
             .route("/tools", web::get().to(tools)) // Route for tools
@@ -148,7 +148,9 @@ async fn main() -> std::io::Result<()> {
     })
     .bind("127.0.0.1:8080")?
     .run()
-    .await
+    .await;
+    println!("yuya stopped");
+    result
 }
 
 

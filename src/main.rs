@@ -136,6 +136,7 @@ async fn wake(query: web::Query<WakeQuery>) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+	println!("main started");
     HttpServer::new(|| {
         App::new()
             .route("/", web::get().to(summary))  // Route for root

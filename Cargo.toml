@@ -11,3 +11,4 @@ actix-files = "0.6"
 pulldown-cmark = "0.9"  # Markdown parser
 ping-rs = "0.1.2"
 serde = { version = "1.0", features = ["derive"] }
+wake-on-lan = "0.2.0"

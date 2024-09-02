@@ -3,6 +3,7 @@ use actix_web::{web, App, HttpServer, HttpResponse, Responder};
 use std::fs;
 use std::time::Duration;
 use serde::Deserialize;
+use wake_on_lan;
 
 #[derive(Deserialize)]
 struct WakeQuery {
@@ -116,7 +117,14 @@ async fn wake(query: web::Query<WakeQuery>) -> impl Responder {
     let password = &query.password;
 
     if password == "magic" {
+    	let mac_address: [u8; 6] = [0xC0, 0x7C, 0xD1, 0xFB, 0xC9, 0x86];
+    	
+    	let magic_packet = wake_on_lan::MagicPacket::new(&mac_address);
+    	
+    	let _ = magic_packet.send();
+    	
     	serve_markdown("pages/summary.md", Some(true)).await
+
     } else {
     	serve_markdown("pages/summary.md", Some(false)).await
     }

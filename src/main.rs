@@ -4,6 +4,7 @@ use std::fs;
 use std::time::Duration;
 use serde::Deserialize;
 use wake_on_lan;
+use std::env;
 
 #[derive(Deserialize)]
 struct WakeQuery {
@@ -136,6 +137,13 @@ async fn wake(query: web::Query<WakeQuery>) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+	let current_dir = env::current_dir().expect("Failed to get current directory");
+	    // Construct the path to the file
+    let file_path = current_dir.join("pages/common.html");
+
+    // Print the path
+    println!("Attempting to read from: {:?}", file_path);
+    
 	println!("yuya started");
     let result = HttpServer::new(|| {
         App::new()

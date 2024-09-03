@@ -118,6 +118,10 @@ async fn games() -> impl Responder {
     serve_markdown("pages/games.md", None).await
 }
 
+async fn art() -> impl Responder {
+    serve_markdown("pages/art.md", None).await
+}
+
 async fn wake(query: web::Query<WakeQuery>) -> impl Responder {
     let password = &query.password;
 
@@ -151,6 +155,7 @@ async fn main() -> std::io::Result<()> {
             .route("/tools", web::get().to(tools)) // Route for tools
             .route("/wake", web::get().to(wake))
             .route("/games", web::get().to(games))
+            .route("/art", web::get().to(art))
             .service(actix_files::Files::new("/assets", "./assets").show_files_listing())
             .default_service(web::route().to(summary))
     })

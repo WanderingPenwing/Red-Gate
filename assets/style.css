@@ -43,6 +43,13 @@ input {
   font: 18px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+pre {
+  padding: 0px 0px 0px 30px;
+  font-family: monospace;
+  background: #cccccc;
+  border-radius: 10px;
+}
+
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   body {
@@ -52,6 +59,10 @@ input {
 
   input {
     color: #cccccc;
+    background: #181818;
+  }
+
+  pre {
     background: #181818;
   }
 
@@ -138,5 +149,3 @@ input {
 .game-list {
   border-spacing: 20px 30px;
 }
-
-

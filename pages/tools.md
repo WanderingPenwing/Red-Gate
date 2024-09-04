@@ -1,4 +1,4 @@
-# Yuya - Tools
+# The Red Gate - Tools
 
 ###### nixos
 
@@ -7,24 +7,24 @@
 I am using [NixOS](https://nixos.org/) on all 3 of my machines (my laptop and both of my servers).
 That allows me multiple things :
 
-- A reproducible architecture : 
-  If I wipe my system I can recreate it perfectly using my config,
+- **A reproducible architecture** : 
+  If I wipe my system I can recreate it *perfectly* using my config,
   and no package will stop working because of undeclared dependency
   
-- My environnement everywhere : 
+- **My environnement everywhere** : 
   My config is set up so that all my cli tools are installed on the 
-  3 machines (with the same config), so I find myself at home 
+  3 machines (with the same config), so I find myself **at home**
   wherever I am. However while the 3 have a common config, they also
   each have their separate config, for example only my laptop has a 
   graphic environment, and only the bathhouse server has the [proxy](/tools#nginx) 
   config.
 
-- A declarative system :
+- **A declarative system** :
   I make a lot of mess when I debug an issue and I tend to touch 
   a lot of stuff to ty to fix my problem, so some obscure config
   could turn against me month later.
-  But when your system is completely declared in the same place, 
-  and that config represent exaclty the state of my computer, 
+  But when your system is completely declared in *one place*, 
+  and that config represent *exaclty* the state of my computer, 
   everything is easier to clean.
 
 ###### docker
@@ -67,10 +67,10 @@ services:
 
 Being as new to docker container as I was (and still am), I wanted a pretty 
 dashboard to motinor and tinker with the containers I run on the server. 
-I chose [portainer](https://www.portainer.io/") for its beginner-friendliness, 
-and it never failed me (yet).
+I chose [portainer](https://www.portainer.io/") for its **beginner-friendliness**, 
+and it never failed me *(yet)*.
 
-This is the only thing installed on the 2 servers (so I can monitor them both). 
+This is the only thing installed on the 2 servers *(so I can monitor them both)*. 
 And they both call to the same ui (hosted on the bathhouse server)
 
 **bathouse** config
@@ -93,12 +93,13 @@ services:
 
 ```
 
-docker run -d   -p 9001:9001 \
-				--name portainer_agent \
-				--restart=always \
-  				-v /var/run/docker.sock:/var/run/docker.sock \
-  				-v /var/lib/docker/volumes:/var/lib/docker/volumes \  
-  				portainer/agent:2.19.5
+docker run -d \
+	-p 9001:9001 \
+	--name portainer_agent \
+	--restart=always \
+  	-v /var/run/docker.sock:/var/run/docker.sock \
+  	-v /var/lib/docker/volumes:/var/lib/docker/volumes \  
+  	portainer/agent:2.19.5
 
 ```
 
@@ -133,6 +134,7 @@ in practice is that it will sort results according to *multiple sources*
 instead of just one (and you can choose the sources !)
 
 on the **bathhouse** server
+
 ```
 
 services:
@@ -156,9 +158,21 @@ services:
 
 [git.penwing.org](https://git.penwing.org)
 
-> > to document
+I am a big fan of github, with its only downside being *microsoft*. Not because I don't 
+like this company particularly, but because I do not like to depend on a big company 
+to host my git repos. So I looked and found [gitea](https://about.gitea.com/) 
+(since [gitlab](https://about.gitlab.com/) is too heavy for my needs). 
+It seemed promising until I found [forgejo](https://forgejo.org/) which is a gitea fork
+that recently separated. I liked the features and the philosophy more, so that was what I set up.
+
+For the ssh connection it was a bit tricky :
+ - git.penwing.org goes through a cloudflare tunnel (http protocol)
+ - ssh.penwing.org goes to my router and is redirected to the docker container
+
+I had to have separate adresses since ssh cannot go through a cloudflare tunnel.
 
 on the **bathhouse** server
+
 ```
 
 networks:
@@ -211,7 +225,7 @@ services:
 
 [movie.penwing.org](https://movie.penwing.org)
 
-As a huge movie watcher, which I collect very legally, I had to make myself a 
+As a huge movie watcher, which I collect *very legally*, I had to make myself a 
 collection. But why not share it with my friends ? So I use my server to host a 
 [Jellyfin](https://jellyfin.org/) instance
 
@@ -245,11 +259,12 @@ volumes:
 
 [pdf.penwing.org](https://pdf.penwing.org)
 
-Disclaimer : a pdf is compiled so it cannot be "edited" per say, only
+Disclaimer : a pdf is compiled so it cannot be *edited* per say, only
 scanned, and recompiled
 
 You may know the pdf editor [I love PDF](https://www.ilovepdf.com/), 
-the service I host ([Stirling](https://github.com/Stirling-Tools/Stirling-PDF)) is roughly the same, but with a bit more capabilities.
+the service I host ([Stirling](https://github.com/Stirling-Tools/Stirling-PDF)) 
+is roughly the same, but with a bit more *capabilities*.
 For example you can chain together different modifications like :
 
 scan to pdf - merge pdf - page number - compress - lock 
@@ -267,13 +282,36 @@ services:
     ports:
       - '1280:8080'
     volumes:
-      - ./trainingData:/usr/share/tessdata #Required for extra OCR languages
+      - ./trainingData:/usr/share/tessdata
       - ./extraConfigs:/configs
       - ./logs:/logs/
     environment:
       - DOCKER_ENABLE_SECURITY=false
       - INSTALL_BOOK_AND_ADVANCED_HTML_OPS=false
       - LANGS=en_GB
+
+```
+
+###### overleaf
+
+## A Latex Editor 📝
+
+[paper.penwing.org](https://paper.penwing.org)
+
+One of my teachers told me about [latex](https://www.latex-project.org/) as a paper editor, and it seemed pretty interesting
+so I decided for my next papers I will use it. And what better way of using latex than
+selfhosting an editor x) ? So I went with [overleaf](https://github.com/overleaf/overleaf).
+
+on the **boiler** server
+
+It was a bit more involved than just a docker-compose sadly : I followed the [quickstart guide](https://github.com/overleaf/toolkit/blob/master/doc/quick-start-guide.md)
+and added a fix:
+
+```
+
+edit config/overleaf.rc with
+
+OVERLEAF_LISTEN_IP=0.0.0.0
 
 ```
 

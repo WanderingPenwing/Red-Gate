@@ -1,3 +1,3 @@
-# Yuya - Art
+# The Red Gate - Art
 
 *work in progress*
